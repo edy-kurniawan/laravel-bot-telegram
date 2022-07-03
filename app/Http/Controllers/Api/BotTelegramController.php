@@ -15,14 +15,7 @@ class BotTelegramController extends Controller
      */
     public function index()
     {
-        $updates = Telegram::commandsHandler(true);
-        $chat_id = $updates->getChat()->getId();
-        $username = $updates->getChat()->getFirstName();
-
-        if(strtolower($updates->getMessage()->getText() === 'halo')) return Telegram::sendMessage([
-            'chat_id' => $chat_id, 
-            'text' => 'Halo ' . $username 
-        ]);
+        
     }
 
     /**
@@ -32,7 +25,8 @@ class BotTelegramController extends Controller
      */
     public function create()
     {
-        //
+        $response = Telegram::setWebhook(['url' => env('TELEGRAM_WEBHOOK_URL')]);
+	    dd($response);
     }
 
     /**
@@ -43,7 +37,15 @@ class BotTelegramController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $updates = Telegram::commandsHandler(true);
+        $chat_id = $updates->getChat()->getId();
+        $username = $updates->getChat()->getFirstName();
+
+        if(strtolower($updates->getMessage()->getText() === 'hello')) return Telegram::sendMessage([
+            'chat_id' => $chat_id, 
+            'text' => 'Halo ' . $username 
+        ]);
+
     }
 
     /**
